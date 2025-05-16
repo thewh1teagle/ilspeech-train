@@ -1,53 +1,119 @@
-Train piper tts 
+Cloud: cloud.vastai.com
+
+Hardware: rtx 3080 ti 12GB vram
+
+Image: vastai/pytorch:2.5.1-cuda-12.1.1
+
+Time: fine tune took ~1.5 days until ~0.6 total loss
 
 ```console
-# Prepare dependencies
+1. Prepare environment
+    sudo apt-get install espeak-ng -y
+    pip install uv
+    cd src/python
+    uv venv
+    uv pip install -e .
+    ./build_monotonic_align.sh
 
-sudo apt-get install espeak-ng -y
-git clone https://github.com/thewh1teagle/piper -b hebrew
-cd piper/src/python
-uv venv
-uv pip install -e .
-./build_monotonic_align.sh
+2. Prepare dataset
 
-# Prepare dataset
+When you download from google drive, add confirm=yes to the URL and use wget.
 
-!wget https://huggingface.co/datasets/thewh1teagle/ILSpeech/resolve/main/ilspeech_2025_04_v1.zip
-!unzip ilspeech_2025_04_v1.zip
+3. Prepare checkpoint
+    wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/ryan/medium/epoch=4641-step=3104302.ckpt
 
-# Prepare checkpoint
-!wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/ryan/medium/epoch=4641-step=3104302.ckpt
-     
-# Preprocess
-
-!uv run python -m piper_train.preprocess \
+4. Preprocess
+    uv run python -m piper_train.preprocess \
     --language he \
-    --input-dir ilspeech_2025_04_v1 \
+    --input-dir ../../hebrew/dummy_dataset \
     --output-dir ./train \
     --dataset-format ljspeech \
     --single-speaker \
     --sample-rate 22050 \
     --raw-phonemes
 
-# Train
-!uv run python -m piper_train \
+5. Train
+    uv run python -m piper_train \
         --dataset-dir "./train" \
         --accelerator 'gpu' \
         --devices 1 \
-        --batch-size 32 \
+        --batch-size 24 \ # 16/12GB 24/16GB
         --validation-split 0 \
         --num-test-examples 0 \
-        --max_epochs 90000 \
+        --max_epochs 990000 \
         --resume_from_checkpoint ./epoch=4641-step=3104302.ckpt \
         --checkpoint-epochs 1 \
         --precision 32
 
-
-# infer
-
-cat ../../etc/test_sentences/test_he.jsonl  | \
+6. Check while train
+    cat ../../etc/test_sentences/test_he.jsonl  | \
         python3 -m piper_train.infer \
             --sample-rate 22050 \
             --checkpoint ./train/lightning_logs/version_0/checkpoints/*.ckpt \
-            --output-dir ./output
+            --output-dir ./output \
+            --length-scale 1.3
+
+7. Check loss_disc_all graph and ensure it keep decreasing
+    uv run tensorboard --logdir ./train/lightning_logs/
+    
+8. Export onnx
+    uv run python -m piper_train.export_onnx ./train/lightning_logs/version_0/checkpoints/*.ckpt model.onnx
+    cp ./train/config.json model.config.json
+
+9. Use it with piper-onnx https://github.com/thewh1teagle/piper-onnx/tree/main/examples
+
+
+Gotchas
+
+If you can't see hebrew in the terminal
+
+sudo locale-gen en_US.UTF-8
+sudo update-locale LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+
+Depcrecated
+    uv pip install torchmetrics==0.11.4
+    uv pip install "numpy<2"
+    uv pip install pytorch-lightning
+    cmake -B build .
+    cmake --build build
+    &./piper.exe --model en_US-bryce-medium.onnx --config config.json --text "Hello, world!" --output_file output.wav
+    english, bryce medium
+
+
+Send audio to telegram every one hour
+
+
+Open https://t.me/BotFather and create bot
+Send a message to the bot
+Open https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+Copy you user ID
+
+
+
+# Telegram Bot credentials
+BOT_TOKEN="bot token"
+CHAT_ID="chatid"
+
+while true; do
+  # Run inference
+  cat ../../etc/test_sentences/test_he.jsonl | \
+  python3 -m piper_train.infer \
+      --sample-rate 22050 \
+      --checkpoint ./train/lightning_logs/version_1/checkpoints/*.ckpt \
+      --output-dir ./output \
+      --length-scale 1.3
+
+  # Send audio files
+  for FILE in output/1.wav output/2.wav; do
+    curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendAudio" \
+      -F chat_id="${CHAT_ID}" \
+      -F audio=@"${FILE}"
+  done
+
+  # Sleep for 20 minutes
+  sleep 1200
+done
 ```
