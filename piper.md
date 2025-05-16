@@ -41,7 +41,7 @@ uv pip install -e .
         --resume_from_checkpoint ./epoch=4641-step=3104302.ckpt \
         --checkpoint-epochs 1 \
         --precision 32
-```
+
 
 # infer
 
@@ -50,3 +50,4 @@ cat ../../etc/test_sentences/test_he.jsonl  | \
             --sample-rate 22050 \
             --checkpoint ./train/lightning_logs/version_0/checkpoints/*.ckpt \
             --output-dir ./output
+```
