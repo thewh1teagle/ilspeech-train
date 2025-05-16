@@ -1,5 +1,6 @@
 Train piper tts 
 
+```console
 # Prepare dependencies
 
 sudo apt-get install espeak-ng -y
@@ -40,6 +41,7 @@ uv pip install -e .
         --resume_from_checkpoint ./epoch=4641-step=3104302.ckpt \
         --checkpoint-epochs 1 \
         --precision 32
+```
 
 # infer
 
