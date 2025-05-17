@@ -5,6 +5,7 @@ Time: fine tune took ~1.5 days until ~0.6 total loss
 
 1. Prepare environment
     git clone https://github.com/thewh1teagle/piper -b hebrew
+    cd piper
     sudo apt-get install espeak-ng -y
     pip install uv
     cd src/python
