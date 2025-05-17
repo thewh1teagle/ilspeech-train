@@ -18,4 +18,7 @@ uv run tensorboard --logdir ./Models/Finetune/
 # Monitor GPU
 uv pip install nvitop
 uv run nvitop
+
+# Infer
+uv run Demo/infer.py
 ```
