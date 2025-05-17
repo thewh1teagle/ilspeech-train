@@ -18,6 +18,9 @@ Time: fine tune took ~1.5 days until ~0.6 total loss
 2. Prepare dataset
 
 When you download from google drive, add confirm=yes to the URL and use wget.
+Format:
+  ./metadata.csv - contains filename|phonemes where filename is without extension
+  ./wav - contains wav files
 
 3. Prepare checkpoint
     wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/ryan/medium/epoch=4641-step=3104302.ckpt
