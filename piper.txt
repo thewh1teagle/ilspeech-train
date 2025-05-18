@@ -28,7 +28,7 @@ When you download from google drive, add confirm=yes to the URL and use wget.
     --dataset-format ljspeech \
     --single-speaker \
     --sample-rate 22050 \
-    --raw-phonemes
+    --phoneme-type raw
 
 This will generate ./train folder along with config.json and files to train
 
