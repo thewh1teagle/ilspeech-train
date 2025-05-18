@@ -131,6 +131,8 @@ done
 
 Multi speaker:
 
+export OMP_NUM_THREADS=1
+
     uv run python -m piper_train.preprocess \
     --language he \
     --input-dir ../../hebrew/dummy_dataset_multi \
