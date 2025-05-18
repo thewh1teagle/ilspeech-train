@@ -116,3 +116,59 @@ while true; do
   # Sleep for 20 minutes
   sleep 1200
 done
+
+
+
+
+
+
+
+
+
+
+
+
+
+Multi speaker:
+
+    uv run python -m piper_train.preprocess \
+    --language he \
+    --input-dir ../../hebrew/dummy_dataset_multi \
+    --output-dir ./train \
+    --dataset-format ljspeech \
+    --multi-speaker \
+    --sample-rate 22050 \
+    --speaker-id 1638 \
+    --phoneme-type raw
+
+# replace "speaker_id": 0 with "speaker_id": 7 in dataset.jsonl
+
+
+
+# Override config.json with original config of the model
+wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/libritts_r/medium/config.json -O ./train/config.json
+# Replace phoneme_type to raw
+# fetch checkpoint
+wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/libritts_r/medium/epoch=404-step=1887300.ckpt
+
+uv run python -m piper_train \
+    --dataset-dir "./train" \
+    --accelerator 'gpu' \
+    --devices 1 \
+    --batch-size 24 \
+    --validation-split 0 \
+    --num-test-examples 0 \
+    --max_epochs 990000 \
+    --resume_from_single_speaker_checkpoint ./epoch=404-step=1887300.ckpt \
+    --checkpoint-epochs 1 \
+    --precision 32
+
+Batch sizes: 16/12GB 24/16GB
+
+# put "speaker_id": 7 in the test json file
+cat ../../etc/test_sentences/test_he.jsonl  | \
+        python3 -m piper_train.infer \
+            --sample-rate 22050 \
+            --checkpoint ./train/lightning_logs/version_0/checkpoints/*.ckpt \
+            --output-dir ./output \
+            --length-scale 1.3
