@@ -184,6 +184,7 @@ cat ../../etc/test_sentences/test_he.jsonl  | \
 
 
 # Train high quality model
+# Note: I think that higher model requires more vram when training so you may need to lower batch size
 
 wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/ljspeech/high/ljspeech-2000.ckpt
   uv run python -m piper_train \
