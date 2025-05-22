@@ -16,7 +16,8 @@ Time: fine tune took ~1.5 days until ~0.6 total loss
 2. Prepare dataset
 
 When you download from google drive, add confirm=yes to the URL and use wget.
-
+***Important
+    The dataset **must** be normalized to 22.05 kHz and 16-bit signed integer format (int16) with full-range amplitude scaling. 
 3. Prepare checkpoint
     wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/ryan/medium/epoch=4641-step=3104302.ckpt
 
