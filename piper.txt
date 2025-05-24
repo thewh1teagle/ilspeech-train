@@ -226,7 +226,7 @@ Solution: export CUDA_VISIBLE_DEVICES="cuda:0"
 
 Train on raw tokens:
 (1) preprocess with --phoneme-type raw
-(2) use hebrew/raw_tokens.py
-(2) replace the phoneme map in ./train/config.json with the created one
+(2) use hebrew/raw_tokens.py as uv run hebrew/raw_tokens.py metadata.csv new_metadata.csv # hebrew2piper.json will be created
 (3) train normally
-(2) use hebrew/create_test.py
+(4) use hebrew/hebrew2piper.py hebrew2piper.json "זֶה מוֹדֵל בְּעִבְרִית שֶׁמְּדַבֵּר"
+(5) Paste it in hebrew/create_test.py and run it
