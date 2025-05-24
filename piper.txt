@@ -223,3 +223,10 @@ wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/e
 Error:
 RuntimeError: Expected all tensors to be on the same device
 Solution: export CUDA_VISIBLE_DEVICES="cuda:0"
+
+Train on raw tokens:
+(1) preprocess with --phoneme-type raw
+(2) use hebrew/raw_tokens.py
+(2) replace the phoneme map in ./train/config.json with the created one
+(3) train normally
+(2) use hebrew/create_test.py
