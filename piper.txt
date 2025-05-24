@@ -218,3 +218,8 @@ wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/e
     huggingface-cli download --repo-type dataset user/some-dataset some_file.7z --local-dir .
     sudo apt install p7zip-full
     7z x some_file.7z
+
+
+Error:
+RuntimeError: Expected all tensors to be on the same device
+Solution: export CUDA_VISIBLE_DEVICES="cuda:0"
