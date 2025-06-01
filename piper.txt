@@ -225,6 +225,15 @@ Error:
 RuntimeError: Expected all tensors to be on the same device
 Solution: export CUDA_VISIBLE_DEVICES="cuda:0"
 
+Error:ExponentialLR doesn't follow PyTorch's LRScheduler API 
+https://github.com/rhasspy/piper/issues/704#issuecomment-2623866660
+
+Error: CUFFT_INTERNAL_ERROR
+You need correct pytorch version for your cuda version
+Check cuda version
+python -c "import torch; print(f'CUDA version: {torch.version.cuda}, GPU: {torch.cuda.get_device_name(0)}')"
+And then install the correct one  from https://pytorch.org/get-started/locally with uv pip install ...
+
 Train on raw tokens:
 (1) preprocess with --phoneme-type raw
 (2) use hebrew/raw_tokens.py as uv run hebrew/raw_tokens.py metadata.csv new_metadata.csv # hebrew2piper.json will be created
@@ -237,3 +246,6 @@ Train on raw tokens:
 add librosa
 add onnxruntime
 add piper_phonemize
+
+
+
