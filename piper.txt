@@ -231,3 +231,9 @@ Train on raw tokens:
 (3) train normally
 (4) use hebrew/hebrew2piper.py hebrew2piper.json "זֶה מוֹדֵל בְּעִבְרִית שֶׁמְּדַבֵּר"
 (5) Paste it in hebrew/create_test.py and run it
+
+
+
+add librosa
+add onnxruntime
+add piper_phonemize
