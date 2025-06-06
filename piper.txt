@@ -233,6 +233,7 @@ You need correct pytorch version for your cuda version
 Check cuda version
 uv run python -c "import torch; print(f'CUDA version: {torch.version.cuda}, GPU: {torch.cuda.get_device_name(0)}')"
 And then install the correct one (cuda version) from https://pytorch.org/get-started/locally with uv pip install ...
+you may need uv pip uninstall torchvision as well
 
 Train on raw tokens:
 (1) preprocess with --phoneme-type raw
