@@ -232,7 +232,7 @@ Error: CUFFT_INTERNAL_ERROR
 You need correct pytorch version for your cuda version
 Check cuda version
 uv run python -c "import torch; print(f'CUDA version: {torch.version.cuda}, GPU: {torch.cuda.get_device_name(0)}')"
-And then install the correct one  from https://pytorch.org/get-started/locally with uv pip install ...
+And then install the correct one (cuda version) from https://pytorch.org/get-started/locally with uv pip install ...
 
 Train on raw tokens:
 (1) preprocess with --phoneme-type raw
