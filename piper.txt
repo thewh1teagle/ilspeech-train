@@ -47,6 +47,9 @@ This will generate ./train folder along with config.json and files to train
         --checkpoint-epochs 1 \
         --precision 32
 
+Note: to save multiple checkpoints without limit use: --num_ckpt -1
+Note: to stop on specific step/epoch use: --max_steps or --max_epochs
+
 6. Check while train
     cat ../../etc/test_sentences/test_he.jsonl  | \
         python3 -m piper_train.infer \
