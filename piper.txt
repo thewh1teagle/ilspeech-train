@@ -260,3 +260,7 @@ set TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 in the ENV
 
 
 
+Hide warnings
+
+PYTHONWARNINGS="ignore::UserWarning"
+
