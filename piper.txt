@@ -22,9 +22,10 @@ When you download from google drive, add confirm=yes to the URL and use wget.
     wget https://huggingface.co/datasets/rhasspy/piper-checkpoints/resolve/main/en/en_US/ryan/medium/epoch=4641-step=3104302.ckpt
 
 4. Preprocess
+    cp -rf ../../hebrew_dummy_dataset ./dataset
     uv run python -m piper_train.preprocess \
     --language he \
-    --input-dir ../../hebrew/dummy_dataset \
+    --input-dir ./dataset \
     --output-dir ./train \
     --dataset-format ljspeech \
     --single-speaker \
