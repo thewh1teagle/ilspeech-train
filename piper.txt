@@ -254,4 +254,9 @@ add onnxruntime
 add piper_phonemize
 
 
+torch.load failed because of issues with weights_only parameter
+
+set TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1 in the ENV
+
+
 
