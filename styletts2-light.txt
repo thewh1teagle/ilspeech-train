@@ -1,6 +1,6 @@
 1. Prepare dependencies
 
-    git clone https://github.com/thewh1teagle/StyleTTS2-lite -b hebrew2
+    git clone https://github.com/thewh1teagle/StyleTTS2-lite -b hebrew1
     pip install uv
     uv sync
     wget https://huggingface.co/dangtr0408/StyleTTS2-lite/resolve/main/Models/base_model.pth -O ./Models/Finetune/base_model.pth
