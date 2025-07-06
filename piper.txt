@@ -332,10 +332,10 @@ uv run python -m piper_train.preprocess \
 # Train
 
 uv run python -m piper_train \
-    --dataset-dir "./train" \
+    --dataset-dir "train_ljspeech_enhanced/" \
     --accelerator 'gpu' \
     --devices 1 \
-    --batch-size 24 \ # 16/12GB 24/16GB
+    --batch-size 24 \
     --validation-split 0 \
     --num-test-examples 0 \
     --max_epochs 990000 \
