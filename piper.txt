@@ -358,7 +358,7 @@ while true; do
   cat ../../etc/test_sentences/test_he.jsonl | \
   python3 -m piper_train.infer \
       --sample-rate 22050 \
-      --checkpoint ./train/lightning_logs/version_1/checkpoints/*.ckpt \
+      --checkpoint ./train_ljspeech_enhanced/lightning_logs/version_1/checkpoints/*.ckpt \
       --output-dir ./output \
       --length-scale 1.3
 
