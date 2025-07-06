@@ -339,9 +339,10 @@ uv run python -m piper_train \
     --validation-split 0 \
     --num-test-examples 0 \
     --max_epochs 990000 \
-    --resume_from_checkpoint ./epoch=4641-step=3104302.ckpt \
+    --resume_from_checkpoint ./ljspeech-2000.ckpt \
     --checkpoint-epochs 1 \
-    --precision 32
+    --precision 32 \
+    --quality high
 
 
 
