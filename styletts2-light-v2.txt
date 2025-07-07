@@ -1,0 +1,27 @@
+# Prepare code
+git clone https://github.com/thewh1teagle/StyleTTS2-lite -b hebrew2
+cd StyleTTS2-lite
+pip install uv
+uv sync
+
+# Prepare dataset
+sudo apt install -y p7zip-full
+wget https://huggingface.co/datasets/thewh1teagle/saspeech/resolve/main/saspeech_automatic/saspeech_automatic.7z
+7z x saspeech_automatic.7z
+mkdir dataset/
+uv run hebrew/prepare_metadata.py ./saspeech_automatic/metadata.csv ./dataset/metadata.csv
+uv pip install pydub tqdm
+uv run hebrew/normalize.py ./saspeech_automatic/wav ./dataset/wav
+
+# keep 5% for val.txt
+total=$(wc -l < ./dataset/metadata.csv)
+val_count=$((total * 5 / 100))
+shuf ./dataset/metadata.csv > ./dataset/shuffled.csv
+head -n "$val_count" ./dataset/shuffled.csv > ./dataset/val.txt
+tail -n $((total - val_count)) ./dataset/shuffled.csv > ./dataset/train.txt
+
+# Prepare models
+wget https://huggingface.co/dangtr0408/StyleTTS2-lite/resolve/main/Models/base_model.pth -O  Models/Finetune/base_model.pth
+
+uv run train.py
+uv run Demo/infer.py
