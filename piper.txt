@@ -1,6 +1,6 @@
 Cloud: cloud.vastai.com
 Hardware: rtx 3080 ti 12GB vram
-Image: vastai/pytorch:2.5.1-cuda-12.1.1
+Image: vastai/pytorch:2.5.1-cuda-12.1.1 https://cloud.vast.ai?ref_id=62897&template_id=074d0718b7b95c68b1e46b380d7e7e2a
 Time: fine tune took ~1.5 days until ~0.6 total loss
 
 1. Prepare environment
